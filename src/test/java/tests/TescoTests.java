@@ -108,23 +108,28 @@ public class TescoTests extends BasePage {
         assertEquals(actualText, "English");
     }
 
+    /* this option is not working without a new initializing
     @When("I click on Online club")
     public void iClickOnOnlineClub() throws InterruptedException {
         List<WebElement> actualElements = driver.findElements(By.className("nav-item"));
         driver.findElement(By.xpath("//*[@id=\"onlineClub\"]/a")).click();
         Thread.sleep(2000);
     }
+     */
+    @Given("I open Online club website")
+    public void iOpenOnlineClubWebsite() {
+        driver.get(Settings.OnlineClub_URL);
+    }
 
-    @And("Click on radio button")
+    @When("Click on radio button")
     public void clickOnRadioButton() throws InterruptedException {
         driver.findElement(By.xpath("//*[@id=\"9\"]")).click();
         Thread.sleep(2000);
     }
 
-    @And("Click on Start trial")
+    @Then("Click on Start trial")
     public void clickOnStartTrial() throws InterruptedException {
-        driver.findElement(By.xpath("//*[@id=\"subscribe-btn\"]/span")).click();
+        driver.findElement(By.xpath("//*[@id=\"subscribe-btn\"]")).click();
         Thread.sleep(2000);
-
     }
 }
