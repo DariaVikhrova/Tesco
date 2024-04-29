@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static pages.HomePage.*;
 
 public class TescoTests extends BasePage {
@@ -41,10 +42,12 @@ public class TescoTests extends BasePage {
         driver.manage().window().maximize();
         homePage = new HomePage();
     }
-    @After
+   /* @After
     public void closeDriver(){
         driver.quit();
     }
+
+    */
    @Given("I open Tesco website")
     public void openTescoWebsite(){
         driver.get(Settings.TESCO_URL);
@@ -89,7 +92,7 @@ public class TescoTests extends BasePage {
     }
     @And("Language is set to english")
     public void languageIsSetToEnglish() throws InterruptedException {
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(changeLanguageButton))).isEnabled();
+        wait.until(visibilityOf(driver.findElement(changeLanguageButton))).isEnabled();
         String actualText = driver.findElement(changeLanguageButton).getText();
         assertEquals(actualText, "Magyar");
         Thread.sleep(2000);
@@ -105,5 +108,23 @@ public class TescoTests extends BasePage {
         assertEquals(actualText, "English");
     }
 
+    @When("I click on Online club")
+    public void iClickOnOnlineClub() throws InterruptedException {
+        List<WebElement> actualElements = driver.findElements(By.className("nav-item"));
+        driver.findElement(By.xpath("//*[@id=\"onlineClub\"]/a")).click();
+        Thread.sleep(2000);
+    }
 
+    @And("Click on radio button")
+    public void clickOnRadioButton() throws InterruptedException {
+        driver.findElement(By.xpath("//*[@id=\"9\"]")).click();
+        Thread.sleep(2000);
+    }
+
+    @And("Click on Start trial")
+    public void clickOnStartTrial() throws InterruptedException {
+        driver.findElement(By.xpath("//*[@id=\"subscribe-btn\"]/span")).click();
+        Thread.sleep(2000);
+
+    }
 }
