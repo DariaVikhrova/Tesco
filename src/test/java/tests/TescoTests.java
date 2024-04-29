@@ -41,12 +41,10 @@ public class TescoTests extends BasePage {
         driver.manage().window().maximize();
         homePage = new HomePage();
     }
-    /*@After
+    @After
     public void closeDriver(){
         driver.quit();
     }
-
-     */
    @Given("I open Tesco website")
     public void openTescoWebsite(){
         driver.get(Settings.TESCO_URL);
