@@ -9,14 +9,12 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.jupiter.api.Test;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pages.BasePage;
 import pages.HomePage;
 
 import java.time.Duration;
@@ -27,21 +25,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static pages.HomePage.*;
 
-public class TescoTests extends BasePage {
+public class TescoTests {
 
     WebDriver driver;
     WebDriverWait wait;
     HomePage homePage;
 
+
+
     @Before
     public void initializeDriver() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-blink-features=AutomationControlled");
+
         driver = DriverInitializer.initializeDriver(BrowserType.CHROME);
+        driver.get(Settings.TESCO_URL);
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.manage().window().maximize();
-        homePage = new HomePage();
+        homePage = new HomePage(driver);
+        homePage.isLoaded();
+
     }
+
    /* @After
     public void closeDriver(){
         driver.quit();
@@ -107,15 +110,6 @@ public class TescoTests extends BasePage {
         String actualText = driver.findElement(changeLanguageButton).getText();
         assertEquals(actualText, "English");
     }
-
-    /* this option is not working without a new initializing
-    @When("I click on Online club")
-    public void iClickOnOnlineClub() throws InterruptedException {
-        List<WebElement> actualElements = driver.findElements(By.className("nav-item"));
-        driver.findElement(By.xpath("//*[@id=\"onlineClub\"]/a")).click();
-        Thread.sleep(2000);
-    }
-     */
     @Given("I open Online club website")
     public void iOpenOnlineClubWebsite() {
         driver.get(Settings.OnlineClub_URL);
