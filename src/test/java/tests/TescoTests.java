@@ -11,15 +11,18 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.HomePage;
 import pages.LoginPage;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -156,17 +159,17 @@ public class TescoTests {
     }
     @And("Click on start trial button")
     public void clickOnRadioButton() throws InterruptedException {
-        //driver1 = DriverInitializer.initializeDriver(BrowserType.CHROME);
-        //driver1.get(Settings.OnlineClub_URL);
-        //wait1 = new WebDriverWait(driver1, Duration.ofSeconds(5));
-        //wait.until(visibilityOf(driver.findElement(By.tagName("Start your trial now"))));
-        Thread.sleep(2000);
-        driver1.findElement(By.tagName("Start your trial now")).click();
+        //ArrayList<String> newTab = new ArrayList<String>(driver.getWindowHandles());
+        //driver.switchTo().window(newTab.get(0));
 
+        driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/div/div/div/div/div[1]/section/div[2]/div/div/a/span")).click();
+        Thread.sleep(2000);
     }
+
     @Then("Click on Start trial")
     public void clickOnStartTrial() throws InterruptedException {
-        driver1.findElement(By.id("subscribe-btn")).click();
+
+        driver.findElement(By.id("subscribe-btn")).click();
         Thread.sleep(2000);
     }
 }
