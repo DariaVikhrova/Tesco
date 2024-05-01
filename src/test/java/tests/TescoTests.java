@@ -11,36 +11,32 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.HomePage;
 import pages.LoginPage;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static pages.HomePage.*;
 import static pages.LoginPage.*;
+import static pages.ProductPage.*;
+import static pages.SubscriptionPage.startTrialNowText;
+import static pages.SubscriptionPage.subscribeButton;
 
 public class TescoTests {
 
     WebDriver driver;
-    WebDriver driver1;
     WebDriverWait wait;
-    WebDriverWait wait1;
     HomePage homePage;
-    LoginPage loginPage;
-
-
 
     @Before
     public void initializeDriver() {
@@ -51,84 +47,86 @@ public class TescoTests {
         driver.manage().window().maximize();
         homePage = new HomePage(driver);
         homePage.isLoaded();
-        loginPage = new LoginPage(driver);
-
     }
 
-   /* @After
-    public void closeDriver(){
+    @After
+    public void closeDriver() {
         driver.quit();
     }
 
-    */
-   @Given("I open Tesco website")
-    public void openTescoWebsite(){
+    @Given("I open Tesco website")
+    public void openTescoWebsite() {
         driver.get(Settings.TESCO_URL);
     }
+
     @And("I accept cookies")
     public void acceptCookiesOnStartPage() {
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(CookiesButton))).isEnabled();
         driver.findElement(CookiesButton).click();
     }
+
     @When("I click on Sign in button")
-    public void iClickOnSignInButton() throws InterruptedException {
+    public void iClickOnSignInButton() {
         driver.findElement(signInButtonOnTheHomePage).click();
-        Thread.sleep(2000);
     }
+
     @And("I see login page")
     public void iSeeLoginPage() throws InterruptedException {
         driver.findElement(By.tagName("h1")); // error message
         Thread.sleep(2000);
     }
+
     @And("I input {string} and {string}")
     public void iInputUserNameAndPassword(String username, String password) {
-     WebElement elementEmailInput = driver.findElement(usernameField);
-     wait.until(ExpectedConditions.visibilityOf(elementEmailInput)).isEnabled();
-     elementEmailInput.sendKeys(username);
+        WebElement elementEmailInput = driver.findElement(usernameField);
+        wait.until(ExpectedConditions.visibilityOf(elementEmailInput)).isEnabled();
+        elementEmailInput.sendKeys(username);
 
-     WebElement elementPasswordInput = driver.findElement(passwordField);
-     elementPasswordInput.isEnabled();
-     elementPasswordInput.sendKeys(password);
- }
+        WebElement elementPasswordInput = driver.findElement(passwordField);
+        elementPasswordInput.isEnabled();
+        elementPasswordInput.sendKeys(password);
+    }
+
     @And("I click on log in button")
     public void iClickOnLogInButton() {
         driver.findElement(loginButton).click();
     }
+
     @Then("I see an error")
     public void iSeeAnError() {
         WebElement elementErrorText = driver.findElement(errorMessage);
         elementErrorText.isDisplayed();
         String actualText = elementErrorText.getText();
         assertEquals(actualText, LOGIN_ERROR);
-        driver.close();
     }
+
     @When("I choose categories")
     public void iChooseCategories() throws InterruptedException {
 
         List<WebElement> actualElements = driver.findElements(superDepartmentCategories);
         Random superdepartmentRand = new Random();
-        int superdepartmentList= superdepartmentRand.nextInt(actualElements.size());
+        int superdepartmentList = superdepartmentRand.nextInt(actualElements.size());
         actualElements.get(superdepartmentList).click();
         Thread.sleep(2000);
 
         List<WebElement> nextElements = driver.findElements(departmentCategories);
         Random departmentRand = new Random();
-        int departmentList= departmentRand.nextInt(nextElements.size());
+        int departmentList = departmentRand.nextInt(nextElements.size());
         nextElements.get(departmentList).click();
         Thread.sleep(2000);
 
         List<WebElement> lastElements = driver.findElements(aisleCategories);
         Random aisleRand = new Random();
-        int aisleList= aisleRand.nextInt(lastElements.size());
+        int aisleList = aisleRand.nextInt(lastElements.size());
         lastElements.get(aisleList).click();
         Thread.sleep(2000);
     }
 
     @Then("I see product list")
-    public void iSeeProductList () throws InterruptedException {
-        driver.findElement(By.xpath("//*[@id=\"main\"]/div[1]/main/section"));
-        Thread.sleep(2000);
+    public void iSeeProductList() {
+        driver.findElement(rightSideBasket);
     }
+
     @And("Language is set to english")
     public void languageIsSetToEnglish() throws InterruptedException {
         wait.until(visibilityOf(driver.findElement(changeLanguageButton))).isEnabled();
@@ -136,40 +134,55 @@ public class TescoTests {
         assertEquals(actualText, "Magyar");
         Thread.sleep(2000);
     }
+
     @When("I change language to hungarian")
     public void iChangeLanguageToHungarian() throws InterruptedException {
         driver.findElement(changeLanguageButton).click();
         Thread.sleep(2000);
     }
+
     @Then("Language is changed to hungarian")
     public void languageIsChangedToHungarian() {
         String actualText = driver.findElement(changeLanguageButton).getText();
         assertEquals(actualText, "English");
     }
-    /*@Given("I open Online club website")
-    public void iOpenOnlineClubWebsite() {
-        driver.get(Settings.OnlineClub_URL);
-    }
-     */
+
     @When("I click on Online club")
     public void iClickOnOnlineClub() throws InterruptedException {
-        List<WebElement> actualElements = driver.findElements(By.className("nav-item"));
-        driver.findElement(By.xpath("//*[@id=\"onlineClub\"]/a")).click();
-        Thread.sleep(5000);
+        List<WebElement> actualElements = driver.findElements(navBar);
+        driver.findElement(onlineClubCategoryLink).click();
     }
-    @And("Click on start trial button")
-    public void clickOnRadioButton() throws InterruptedException {
-        //ArrayList<String> newTab = new ArrayList<String>(driver.getWindowHandles());
-        //driver.switchTo().window(newTab.get(0));
 
-        driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/div/div/div/div/div[1]/section/div[2]/div/div/a/span")).click();
-        Thread.sleep(2000);
+    @And("Click on start trial button")
+    public void clickOnRadioButton() {
+        Set<String> handles = driver.getWindowHandles();
+        driver.switchTo().window((String) handles.toArray()[handles.size()-1]);
+        wait.until(visibilityOf(driver.findElement(startTrialNowText)));
+        driver.findElement(startTrialNowText).click();
     }
 
     @Then("Click on Start trial")
-    public void clickOnStartTrial() throws InterruptedException {
+    public void clickOnStartTrial() {
+        driver.findElement(subscribeButton).click();
+    }
 
-        driver.findElement(By.id("subscribe-btn")).click();
+    @When("I input {string} in search field")
+    public void iInputInSearchField(String searchText) {
+        driver.findElement(searchField).sendKeys(searchText);
+    }
+
+    @And("I click on the search button")
+    public void iClickOnTheSearchButton() throws InterruptedException {
+        driver.findElement(searchButton).click();
         Thread.sleep(2000);
+    }
+
+    @Then("I see the page with the word {string}")
+    public void iSeeThePageWithTheWord(String searchText) {
+        wait.until(visibilityOf(driver.findElement(searchResultMessageText)));
+        WebElement searchResultText = driver.findElement(searchResultMessageText);
+        searchResultText.isDisplayed();
+        String actualText = searchResultText.getText();
+        assertEquals(actualText, searchResultMessage);
     }
 }

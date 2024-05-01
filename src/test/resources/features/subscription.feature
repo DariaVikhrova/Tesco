@@ -1,3 +1,4 @@
+@TescoTest
 Feature: Start trial
   Scenario: I start trial on Tesco
     Given I open Tesco website

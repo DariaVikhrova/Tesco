@@ -1,5 +1,6 @@
+@TescoTest
 Feature: Sign in page
-  @TescoTest
+
   Scenario: I click on 'Sign in' button login page appears
     Given I open Tesco website
     And I accept cookies

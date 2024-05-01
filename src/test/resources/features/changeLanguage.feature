@@ -1,5 +1,6 @@
+@TescoTest
 Feature: Change language
-  @TescoTest
+
   Scenario: I change language from english to hungarian
     Given I open Tesco website
     And I accept cookies

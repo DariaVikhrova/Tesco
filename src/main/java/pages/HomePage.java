@@ -14,8 +14,9 @@ public class HomePage extends BasePage {
     public static final By superDepartmentCategories = By.xpath("//*[contains(@class,'menu__item--superdepartment')]");
     public static final By departmentCategories = By.xpath("//*[contains(@class,'menu__item--department')]");
     public static final By aisleCategories = By.xpath("//*[contains(@class,'menu__item--aisle')]");
-
-
-
+    public static final By onlineClubCategoryLink =By.xpath("//*[@id=\"onlineClub\"]/a");
+    public static final By navBar = By.className("nav-item");
+    public static final By searchField = By.xpath("//input[@id='search-input']");
+    public static final By searchButton = By.xpath("//*[@id=\"search-form\"]/button");
 
 }
