@@ -49,10 +49,10 @@ public class TescoTests {
         homePage.isLoaded();
     }
 
-    @After
-    public void closeDriver() {
-        driver.quit();
-    }
+//    @After
+//    public void closeDriver() {
+//        driver.quit();
+//    }
 
     @Given("I open Tesco website")
     public void openTescoWebsite() {
@@ -72,8 +72,8 @@ public class TescoTests {
 
     @And("I see login page")
     public void iSeeLoginPage() throws InterruptedException {
-        driver.findElement(By.tagName("h1")); // error message
-        Thread.sleep(2000);
+        driver.findElement(By.xpath("//*[@id=\"main-content\"]/div/div/div[1]/h1"));
+        Thread.sleep(3000);
     }
 
     @And("I input {string} and {string}")
@@ -94,6 +94,7 @@ public class TescoTests {
 
     @Then("I see an error")
     public void iSeeAnError() {
+        wait.until(visibilityOf(driver.findElement(errorMessage)));
         WebElement elementErrorText = driver.findElement(errorMessage);
         elementErrorText.isDisplayed();
         String actualText = elementErrorText.getText();

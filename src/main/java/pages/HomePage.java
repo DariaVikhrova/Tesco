@@ -10,7 +10,8 @@ public class HomePage extends BasePage {
     }
     public static final By CookiesButton = By.xpath("//*[@id=\"sticky-bar-cookie-wrapper\"]/span/div/div/div[2]/form[1]/button");
     public static final By changeLanguageButton = By.id("utility-header-language-switch-link");
-    public static final By signInButtonOnTheHomePage = By.xpath("//a[@class='button button-primary']");
+    public static final By signInButtonOnTheHomePage = By.xpath("//*[@id=\"utility-header-login-link\"]/span");
+    //public static final By signInButtonOnTheHomePage = By.xpath("//a[@class='button button-primary']");
     public static final By superDepartmentCategories = By.xpath("//*[contains(@class,'menu__item--superdepartment')]");
     public static final By departmentCategories = By.xpath("//*[contains(@class,'menu__item--department')]");
     public static final By aisleCategories = By.xpath("//*[contains(@class,'menu__item--aisle')]");

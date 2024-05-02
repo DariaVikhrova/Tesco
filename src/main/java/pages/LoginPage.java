@@ -10,6 +10,7 @@ public class LoginPage extends BasePage{
     public static final By usernameField = By.id("email");
     public static final By passwordField = By.id("password");
     public static final By loginButton = By.xpath("//*[@id=\"signin-button\"]/span/span");
-    public static final By errorMessage = By.xpath("//*[@id=\"main-content\"]/div/div/div[2]/div/div[2]/p[1]");
-    public static final String LOGIN_ERROR = "Unfortunately we do not recognise those details.";
+    public static final By errorMessage = By.xpath("//*[@id=\"main-content\"]/div/div/div[2]/div");
+    public static final String LOGIN_ERROR = "Unfortunately we do not recognise those details.\n" +
+            "Please try again.";
 }
