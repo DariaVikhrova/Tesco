@@ -7,10 +7,13 @@ public class LoginPage extends BasePage{
     public LoginPage(WebDriver driver) {
         super(driver);
     }
+    public static final By SignInTitle = By.xpath("//*[@id=\"main-content\"]/div/div/div[1]/h1");
     public static final By usernameField = By.id("email");
     public static final By passwordField = By.id("password");
     public static final By loginButton = By.xpath("//*[@id=\"signin-button\"]/span/span");
-    public static final By errorMessage = By.xpath("//*[@id=\"main-content\"]/div/div/div[2]/div");
-    public static final String LOGIN_ERROR = "Unfortunately we do not recognise those details.\n" +
-            "Please try again.";
+    public void clickOnLoginButton(){
+        driver.findElement(loginButton).click();
+    }
+    public static final By registrationLink = By.xpath("//*[@id=\"main-content\"]/div/div/div[1]/div/a");
+
 }

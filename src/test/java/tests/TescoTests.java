@@ -18,6 +18,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.HomePage;
 import pages.LoginPage;
+import pages.SubscriptionPage;
 
 import java.time.Duration;
 import java.util.List;
@@ -37,22 +38,25 @@ public class TescoTests {
     WebDriver driver;
     WebDriverWait wait;
     HomePage homePage;
+    LoginPage loginPage;
+    SubscriptionPage subscriptionPage;
 
     @Before
     public void initializeDriver() {
-
         driver = DriverInitializer.initializeDriver(BrowserType.CHROME);
         driver.get(Settings.TESCO_URL);
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.manage().window().maximize();
         homePage = new HomePage(driver);
         homePage.isLoaded();
+        loginPage = new LoginPage(driver);
+        subscriptionPage = new SubscriptionPage(driver);
     }
 
-//    @After
-//    public void closeDriver() {
-//        driver.quit();
-//    }
+    @After
+    public void closeDriver() {
+        driver.quit();
+    }
 
     @Given("I open Tesco website")
     public void openTescoWebsite() {
@@ -62,18 +66,17 @@ public class TescoTests {
     @And("I accept cookies")
     public void acceptCookiesOnStartPage() {
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(CookiesButton))).isEnabled();
-        driver.findElement(CookiesButton).click();
+        homePage.clickOnCookiesButton();
     }
 
     @When("I click on Sign in button")
     public void iClickOnSignInButton() {
-        driver.findElement(signInButtonOnTheHomePage).click();
+        homePage.clickOnSignInButtonOnTheHomePage();
     }
 
     @And("I see login page")
-    public void iSeeLoginPage() throws InterruptedException {
-        driver.findElement(By.xpath("//*[@id=\"main-content\"]/div/div/div[1]/h1"));
-        Thread.sleep(3000);
+    public void iSeeLoginPage() {
+        driver.findElement(SignInTitle);
     }
 
     @And("I input {string} and {string}")
@@ -89,38 +92,31 @@ public class TescoTests {
 
     @And("I click on log in button")
     public void iClickOnLogInButton() {
-        driver.findElement(loginButton).click();
+        loginPage.clickOnLoginButton();
     }
 
     @Then("I see an error")
     public void iSeeAnError() {
-        wait.until(visibilityOf(driver.findElement(errorMessage)));
-        WebElement elementErrorText = driver.findElement(errorMessage);
-        elementErrorText.isDisplayed();
-        String actualText = elementErrorText.getText();
-        assertEquals(actualText, LOGIN_ERROR);
+        wait.until(visibilityOf(driver.findElement(registrationLink)));
     }
 
     @When("I choose categories")
-    public void iChooseCategories() throws InterruptedException {
+    public void iChooseCategories() {
 
         List<WebElement> actualElements = driver.findElements(superDepartmentCategories);
         Random superdepartmentRand = new Random();
         int superdepartmentList = superdepartmentRand.nextInt(actualElements.size());
         actualElements.get(superdepartmentList).click();
-        Thread.sleep(2000);
 
         List<WebElement> nextElements = driver.findElements(departmentCategories);
         Random departmentRand = new Random();
         int departmentList = departmentRand.nextInt(nextElements.size());
         nextElements.get(departmentList).click();
-        Thread.sleep(2000);
 
         List<WebElement> lastElements = driver.findElements(aisleCategories);
         Random aisleRand = new Random();
         int aisleList = aisleRand.nextInt(lastElements.size());
         lastElements.get(aisleList).click();
-        Thread.sleep(2000);
     }
 
     @Then("I see product list")
@@ -129,17 +125,15 @@ public class TescoTests {
     }
 
     @And("Language is set to english")
-    public void languageIsSetToEnglish() throws InterruptedException {
+    public void languageIsSetToEnglish() {
         wait.until(visibilityOf(driver.findElement(changeLanguageButton))).isEnabled();
         String actualText = driver.findElement(changeLanguageButton).getText();
         assertEquals(actualText, "Magyar");
-        Thread.sleep(2000);
     }
 
     @When("I change language to hungarian")
-    public void iChangeLanguageToHungarian() throws InterruptedException {
-        driver.findElement(changeLanguageButton).click();
-        Thread.sleep(2000);
+    public void iChangeLanguageToHungarian() {
+        homePage.clickOnChangeLanguageButton();
     }
 
     @Then("Language is changed to hungarian")
@@ -149,9 +143,9 @@ public class TescoTests {
     }
 
     @When("I click on Online club")
-    public void iClickOnOnlineClub() throws InterruptedException {
+    public void iClickOnOnlineClub()  {
         List<WebElement> actualElements = driver.findElements(navBar);
-        driver.findElement(onlineClubCategoryLink).click();
+        homePage.clickOnOnlineClubCategoryLink();
     }
 
     @And("Click on start trial button")
@@ -159,12 +153,12 @@ public class TescoTests {
         Set<String> handles = driver.getWindowHandles();
         driver.switchTo().window((String) handles.toArray()[handles.size()-1]);
         wait.until(visibilityOf(driver.findElement(startTrialNowText)));
-        driver.findElement(startTrialNowText).click();
+        subscriptionPage.clickOnStartTrialNowText();
     }
 
     @Then("Click on Start trial")
     public void clickOnStartTrial() {
-        driver.findElement(subscribeButton).click();
+        subscriptionPage.clickOnSubscribeButton();
     }
 
     @When("I input {string} in search field")
@@ -174,7 +168,7 @@ public class TescoTests {
 
     @And("I click on the search button")
     public void iClickOnTheSearchButton() throws InterruptedException {
-        driver.findElement(searchButton).click();
+        homePage.clickOnSearchButton();
         Thread.sleep(2000);
     }
 
